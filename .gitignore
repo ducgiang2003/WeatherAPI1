@@ -1,0 +1,33 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Output of build process
+bin/
+build/
+
+# Temporary files
+*.log
+*.out
+*.tmp
+
+# Dependency directories (vendor/)
+vendor/
+
+# Go module files (Go 1.11+)
+go.sum
+
+# IDE/editor config files
+.vscode/
+.idea/
+*.iml
+
+# Environment variables file
+.env
+
+# OS-specific files
+.DS_Store
+Thumbs.db

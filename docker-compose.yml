@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+      redis:
+        image: "redis:alpine"
+        container_name: "weather_api_redis"
+        ports:
+            - "6381:6379"
+
