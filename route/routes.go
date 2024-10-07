@@ -38,8 +38,6 @@ func Routes() {
 	router.Use(CloseRedisConnection(rdb))
 	router.GET("/weather/:Location", func(c *gin.Context) {
 		//Get param from url
-		///weather/HungYen -> HungYen
-		// toLower -> hungyen
 		location := c.Param("Location")
 		//1.Check cache 
 		cacheKey := strings.ToLower(location)
