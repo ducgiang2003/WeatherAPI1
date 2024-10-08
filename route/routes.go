@@ -28,7 +28,7 @@ import (
 // 		ctx.Next()
 // 	}
 // }
-//Implement rate limiting
+
 
 func Routes() {
 	redis_addr := os.Getenv("REDIS_ADDR")
