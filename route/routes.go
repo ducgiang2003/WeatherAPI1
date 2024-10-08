@@ -39,7 +39,7 @@ func Routes() {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 	// router.Use(CloseRedisConnection(rdb))
-
+	//Implementation rate limiter
 	rateLimiterOption := core.RateLimiterOption{
 		Limit: 1,
 		Burst: 50,
@@ -55,8 +55,6 @@ func Routes() {
 	router.GET("/weather/:Location", rateLimiterMiddleware, func(c *gin.Context) {
 
 		//Lấy tham số từ URL
-		///weather/HungYen -> HungYen
-		// toLower -> hungyen
 		location := c.Param("Location")
 		//1.Check cache
 		cacheKey := strings.ToLower(location)
