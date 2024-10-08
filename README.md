@@ -44,7 +44,3 @@ http://localhost:8465/weather/HoChiMinh
 # License
 This project is licensed under the MIT License.
 
-
-
-
-# WeatherAPI1

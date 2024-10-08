@@ -58,10 +58,12 @@ func Routes() {
 		///weather/HungYen -> HungYen
 		// toLower -> hungyen
 		location := c.Param("Location")
+		//1.Check cache
 		cacheKey := strings.ToLower(location)
 		cacheData, err := rdb.Get(ctx, cacheKey).Result()
+		//2.If not accessing to the other 3 rd service (weather servive)
 		if err == redis.Nil {
-			//Truyen du lieu vao GetWeather
+			//3.Fetching data into cache database
 			data, fetchErr := controller.GetWeather(location)
 			if fetchErr != nil {
 				c.JSON(http.StatusInternalServerError, gin.H{
@@ -70,7 +72,6 @@ func Routes() {
 				log.Println("Error fetchng wether data :%v", err)
 				return
 			}
-
 			// Chuyển đổi data thành JSON trước khi lưu vào Redis(Marshall)
 			jsonData, err := json.Marshal(data)
 			if err != nil {
@@ -80,9 +81,7 @@ func Routes() {
 				})
 				return
 			}
-
-			// Lưu dữ liệu thời tiết vào Redis với TTL 24 giờ (rdb.Set)
-			//Luu duoi dang jsonData
+			//4.Excuting untidy data with TTL 24 hours
 			err = rdb.Set(ctx, cacheKey, jsonData, 24*time.Hour).Err()
 			if err != nil {
 				log.Fatalf("Failed to save into redis ")
@@ -91,8 +90,6 @@ func Routes() {
 				})
 				return
 			}
-
-			// Trả về dữ liệu thời tiết
 			c.JSON(http.StatusOK, data)
 			// Handle any other Redis errors
 		} else if err != nil {
