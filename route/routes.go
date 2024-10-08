@@ -13,20 +13,23 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
+	"github.com/khaaleoo/gin-rate-limiter/core"
 )
 
 // Middlewware close Redis after excute request
-func CloseRedisConnection(rdb *redis.Client) gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		//ensuring connection database close after excute request
-		defer func() {
-			if err := rdb.Close(); err != nil {
-				log.Println("error closing connection ", err)
-			}
-		}()
-		ctx.Next()
-	}
-}
+// func CloseRedisConnection(rdb *redis.Client) gin.HandlerFunc {
+// 	return func(ctx *gin.Context) {
+// 		//ensuring connection database close after excute request
+// 		defer func() {
+// 			if err := rdb.Close(); err != nil {
+// 				log.Println("error closing connection ", err)
+// 			}
+// 		}()
+// 		ctx.Next()
+// 	}
+// }
+//Implement rate limiting
+
 func Routes() {
 	redis_addr := os.Getenv("REDIS_ADDR")
 	//Get connection redis db
@@ -35,9 +38,23 @@ func Routes() {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	router.Use(CloseRedisConnection(rdb))
-	router.GET("/weather/:Location", func(c *gin.Context) {
-		//Get param from url
+	// router.Use(CloseRedisConnection(rdb))
+
+	rateLimiterOption := core.RateLimiterOption{
+		Limit: 1,
+		Burst: 50,
+		Len:   1 * time.Minute,
+	}
+
+	// Create an IP rate limiter instance
+	rateLimiterMiddleware := core.RequireRateLimiter(core.RateLimiter{
+		RateLimiterType: core.IPRateLimiter,
+		Key:             "iplimiter_maximum_requests_for_ip_test",
+		Option:          rateLimiterOption,
+	})
+	router.GET("/weather/:Location", rateLimiterMiddleware, func(c *gin.Context) {
+
+		//Lấy tham số từ URL
 		///weather/HungYen -> HungYen
 		// toLower -> hungyen
 		location := c.Param("Location")
