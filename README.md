@@ -6,6 +6,9 @@ This is my project following[ https://roadmap.sh/projects/weather-api-wrapper-se
     <img width="100%" src="https://assets.roadmap.sh/guest/weather-api-f8i1q.png" > 
 </p>
 
+# Update
+- 10/08:Implement rate limiting 
+
 # Presequites: 
 - You must install newest version Golang or up to V1.16
 - Installing Redis
