@@ -7,7 +7,8 @@ This is my project following[ https://roadmap.sh/projects/weather-api-wrapper-se
 </p>
 
 # Update
-- 10/08:Implement rate limiting 
+- 10/08:Implement rate limiting
+- 11/08: Add new jwt token function
 
 # Presequites: 
 - Install Go V1.16 or superior
