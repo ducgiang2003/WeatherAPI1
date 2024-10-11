@@ -17,20 +17,19 @@ import (
 )
 
 // Middlewware close Redis after excute request
-//
-//	func CloseRedisConnection(rdb *redis.Client) gin.HandlerFunc {
-//		return func(ctx *gin.Context) {
-//			//ensuring connection database close after excute request
-//			defer func() {
-//				if err := rdb.Close(); err != nil {
-//					log.Println("error closing connection ", err)
-//				}
-//			}()
-//			ctx.Next()
-//		}
-//	}
-//
-// Implement rate limiting
+// func CloseRedisConnection(rdb *redis.Client) gin.HandlerFunc {
+// 	return func(ctx *gin.Context) {
+// 		//ensuring connection database close after excute request
+// 		defer func() {
+// 			if err := rdb.Close(); err != nil {
+// 				log.Println("error closing connection ", err)
+// 			}
+// 		}()
+// 		ctx.Next()
+// 	}
+// }
+//Implement rate limiting
+
 func Routes() {
 	redis_addr := os.Getenv("REDIS_ADDR")
 	//Get connect top redis
