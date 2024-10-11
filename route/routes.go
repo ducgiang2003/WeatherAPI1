@@ -17,22 +17,23 @@ import (
 )
 
 // Middlewware close Redis after excute request
-// func CloseRedisConnection(rdb *redis.Client) gin.HandlerFunc {
-// 	return func(ctx *gin.Context) {
-// 		//ensuring connection database close after excute request
-// 		defer func() {
-// 			if err := rdb.Close(); err != nil {
-// 				log.Println("error closing connection ", err)
-// 			}
-// 		}()
-// 		ctx.Next()
-// 	}
-// }
-//Implement rate limiting
-
+//
+//	func CloseRedisConnection(rdb *redis.Client) gin.HandlerFunc {
+//		return func(ctx *gin.Context) {
+//			//ensuring connection database close after excute request
+//			defer func() {
+//				if err := rdb.Close(); err != nil {
+//					log.Println("error closing connection ", err)
+//				}
+//			}()
+//			ctx.Next()
+//		}
+//	}
+//
+// Implement rate limiting
 func Routes() {
 	redis_addr := os.Getenv("REDIS_ADDR")
-	//Get connection redis db
+	//Get connect top redis
 	ctx := context.Background()
 	rdb := connection.RedisCon(redis_addr, ctx)
 	router := gin.New()
@@ -57,6 +58,7 @@ func Routes() {
 		//Lấy tham số từ URL
 		location := c.Param("Location")
 		//1.Check cache
+		//Ensuring consistant of keys in Redis
 		cacheKey := strings.ToLower(location)
 		cacheData, err := rdb.Get(ctx, cacheKey).Result()
 		//2.If not accessing to the other 3 rd service (weather servive)

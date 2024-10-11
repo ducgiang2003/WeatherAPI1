@@ -2,10 +2,13 @@ package main
 
 import (
 	"log"
+	connection "weather/Connection"
 	"weather/route"
 
 	"github.com/joho/godotenv"
 )
+
+var mysqlConString string = "root:@tcp(localhost:3306)/weather?parseTime=true"
 
 func Loadenv() {
 	//Handle read file env
@@ -16,5 +19,7 @@ func Loadenv() {
 }
 func main() {
 	Loadenv()
+	connection.MySQLConnection(mysqlConString)
+	connection.Migration()
 	route.Routes()
 }
