@@ -10,6 +10,7 @@ import (
 	"time"
 	connection "weather/Connection"
 	controller "weather/Controller"
+	middleware "weather/Middleware"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
@@ -100,6 +101,17 @@ func Routes() {
 		c.Header("Content-Type", "application/json")
 		c.String(http.StatusOK, cacheData)
 	})
+	authen := router.Group("/auth")
+	{
+		//Create new user
+		authen.POST("/user/register", controller.RegisterUser)
+		//If user already exist,then generate new token(Login)
+		authen.POST("/user/login", controller.GenerateNewToken)
+		secured := authen.Group("/secured").Use(middleware.Auth())
+		{
+			secured.GET("/boom", controller.TestAuth)
+		}
+	}
 	//Running on port 8465
 	router.Run(":8465")
 }

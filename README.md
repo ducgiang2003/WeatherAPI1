@@ -8,7 +8,8 @@ This is my project following[ https://roadmap.sh/projects/weather-api-wrapper-se
 
 # Update
 - 10/08:Implement rate limiting
-- 11/08: Add new JWT token function
+- 10/08: Add new JWT token function
+- 10/13 : Add new function register and login 
 
 # Presequites: 
 - Install Go V1.16 or superior
