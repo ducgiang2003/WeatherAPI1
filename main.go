@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	connection "weather/Connection"
-	"weather/route"
+	route "weather/Route"
 
 	"github.com/joho/godotenv"
 )
@@ -21,5 +21,8 @@ func main() {
 	Loadenv()
 	connection.MySQLConnection(mysqlConString)
 	connection.Migration()
+
+	// Phục vụ các file tĩnh từ thư mục "view"
+
 	route.Routes()
 }

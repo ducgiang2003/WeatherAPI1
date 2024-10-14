@@ -8,8 +8,12 @@ import (
 	"os"
 	"strings"
 	"time"
+	config "weather/Config"
 	connection "weather/Connection"
 	controller "weather/Controller"
+	googlecontroller "weather/Controller/GoogleController"
+	presentview "weather/Controller/PresentView"
+	provider3rdauth "weather/Controller/Provider_3rdAuth"
 	middleware "weather/Middleware"
 
 	"github.com/gin-gonic/gin"
@@ -32,6 +36,7 @@ import (
 //Implement rate limiting
 
 func Routes() {
+
 	redis_addr := os.Getenv("REDIS_ADDR")
 	//Get connect top redis
 	ctx := context.Background()
@@ -39,6 +44,8 @@ func Routes() {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
+	config.InitSecureCookie()
+
 	// router.Use(CloseRedisConnection(rdb))
 	//Implementation rate limiter
 	rateLimiterOption := core.RateLimiterOption{
@@ -101,17 +108,33 @@ func Routes() {
 		c.Header("Content-Type", "application/json")
 		c.String(http.StatusOK, cacheData)
 	})
+	//Page link to Google Authen
+	router.Static("/Static", "./View/Static")
+	router.GET("/google", presentview.ShowGoogleHome)
+	//Google Provider
+	provider3rdauth.GoogleProvide()
+	//Authentication with JWT (Register and Login)
+
 	authen := router.Group("/auth")
 	{
+
 		//Create new user
 		authen.POST("/user/register", controller.RegisterUser)
 		//If user already exist,then generate new token(Login)
 		authen.POST("/user/login", controller.GenerateNewToken)
+		//Google Oauth 2.0
+		authen.GET("/:provider", googlecontroller.SignInGoogle)
+		authen.GET("/:provider/callback", googlecontroller.CallBackGoogle)
+
 		secured := authen.Group("/secured").Use(middleware.Auth())
 		{
 			secured.GET("/boom", controller.TestAuth)
+
 		}
 	}
+	//Result after authentication
+	router.GET("/success", presentview.Result)
+
 	//Running on port 8465
 	router.Run(":8465")
 }
