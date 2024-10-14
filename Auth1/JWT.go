@@ -1,5 +1,6 @@
 package auth1
 
+//This class is created for auth login and create new token function
 import (
 	"errors"
 	"time"

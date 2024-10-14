@@ -50,6 +50,8 @@ func GenerateNewToken(context *gin.Context) {
 			"Error": "Error when create new tokenString at TokenController " + err.Error(),
 		})
 	}
+	//Save tokenString in cookie
+	context.SetCookie("Authorization", tokenString, 900, "/", "localhost", false, true)
 	//Print tokenString
 	context.JSON(http.StatusOK, gin.H{
 		"Status": "Success",
