@@ -22,6 +22,6 @@ func main() {
 	connection.MySQLConnection(mysqlConString)
 	connection.Migration()
 
-	Route.Routes()
+	Route.InitRoutes()
 
 }

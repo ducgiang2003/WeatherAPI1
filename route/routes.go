@@ -35,7 +35,7 @@ import (
 // }
 //Implement rate limiting
 
-func Routes() {
+func InitRoutes() {
 
 	redis_addr := os.Getenv("REDIS_ADDR")
 	//Get connect top redis
