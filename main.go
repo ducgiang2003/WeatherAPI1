@@ -1,10 +1,9 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"log"
 	connection "weather/Connection"
-	route "weather/Route"
+	"weather/Route"
 
 	"github.com/joho/godotenv"
 )
@@ -23,7 +22,6 @@ func main() {
 	connection.MySQLConnection(mysqlConString)
 	connection.Migration()
 
-	route.Routes()
-	router := gin.Default()
-	router.Run(":8000")
+	Route.Routes()
+
 }
