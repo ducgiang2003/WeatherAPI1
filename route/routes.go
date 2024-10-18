@@ -1,4 +1,4 @@
-package route
+package Route
 
 import (
 	"context"
@@ -35,7 +35,7 @@ import (
 // }
 //Implement rate limiting
 
-func Routes() {
+func InitRoutes() {
 
 	redis_addr := os.Getenv("REDIS_ADDR")
 	//Get connect top redis
@@ -136,5 +136,5 @@ func Routes() {
 	router.GET("/logout", config.LogOutSess)
 
 	//Running on port 8000
-
+	router.Run(":8000")
 }
