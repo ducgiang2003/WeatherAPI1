@@ -44,7 +44,6 @@ func Routes() {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	config.InitSecureCookie()
 
 	// router.Use(CloseRedisConnection(rdb))
 	//Implementation rate limiter
@@ -134,7 +133,8 @@ func Routes() {
 	}
 	//Result after authentication
 	router.GET("/success", presentview.Result)
+	router.GET("/logout", config.LogOutSess)
 
-	//Running on port 8465
-	router.Run(":8465")
+	//Running on port 8000
+
 }

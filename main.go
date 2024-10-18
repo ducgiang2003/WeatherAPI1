@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-gonic/gin"
 	"log"
 	connection "weather/Connection"
 	route "weather/Route"
@@ -22,7 +23,7 @@ func main() {
 	connection.MySQLConnection(mysqlConString)
 	connection.Migration()
 
-	// Phục vụ các file tĩnh từ thư mục "view"
-
 	route.Routes()
+	router := gin.Default()
+	router.Run(":8000")
 }
