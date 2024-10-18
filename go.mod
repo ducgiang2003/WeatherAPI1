@@ -1,6 +1,8 @@
 module weather
 
-go 1.23.1
+go 1.21.0
+
+toolchain go1.23.1
 
 require (
 	github.com/go-redis/redis/v8 v8.11.5
