@@ -18,7 +18,6 @@ build/
 vendor/
 
 # Go module files (Go 1.11+)
-go.sum
 
 # IDE/editor config files
 .vscode/
