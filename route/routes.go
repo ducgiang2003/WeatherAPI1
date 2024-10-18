@@ -1,4 +1,4 @@
-package route
+package Route
 
 import (
 	"context"
@@ -136,5 +136,5 @@ func Routes() {
 	router.GET("/logout", config.LogOutSess)
 
 	//Running on port 8000
-
+	router.Run(":8000")
 }
