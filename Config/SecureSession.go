@@ -12,6 +12,7 @@ var S *securecookie.SecureCookie
 func InitSecureCookie() {
 	// ... existing code ...
 	store := sessions.NewCookieStore(securecookie.GenerateRandomKey(13))
+	
 	gothic.Store = store
 
 }
